@@ -1,5 +1,5 @@
-import {ConsultingLevel} from "@/models/consulting-level.model";
-import {User} from "@/models/user.model";
+import {ConsultingLevel} from './consulting-level.model';
+import {User} from './user.model';
 
 export interface Profile {
     id: number;

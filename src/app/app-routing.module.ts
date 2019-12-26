@@ -1,16 +1,16 @@
-import { Routes, RouterModule } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 
-import { HomeComponent } from './home';
-import { LoginComponent } from './login';
-import { RegisterComponent } from './register';
-import {AuthGuardService} from "@/guards/auth-guard.service";
-import {ProfileComponent} from "@/profile/profile.component";
-import {EmployeesComponent} from "@/employees/employees.component";
-import {SkillProfileComponent} from "@/skill-profile/skill-profile.component";
-import {ProjectsComponent} from "@/projects/projects.component";
-import {MasterdataComponent} from "@/master-data/masterdata.component";
+import {AuthGuardService} from './guards/auth-guard.service';
+import {ProfileComponent} from './profile/profile.component';
+import {EmployeesSkillProfileComponent} from './employees-skill-profile/employees-skill-profile.component';
+import {ProjectsComponent} from './projects/projects.component';
+import {MasterdataComponent} from './master-data/masterdata.component';
+import {NgModule} from '@angular/core';
+import {LoginComponent} from './login/login.component';
+import {HomeComponent} from './home/home.component';
 
-const routes: Routes = [
+
+export const routes: Routes = [
     {
         path: '',
         redirectTo: 'home',
@@ -31,12 +31,8 @@ const routes: Routes = [
                 component: ProfileComponent
             },
             {
-                path: 'employees',
-                component: EmployeesComponent
-            },
-            {
-                path: 'skill-profile',
-                component: SkillProfileComponent
+              path: 'employees-skill-profile',
+              component: EmployeesSkillProfileComponent
             },
             {
                 path: 'projects',
@@ -48,8 +44,11 @@ const routes: Routes = [
             },
         ]
     },
-
-    { path: '**', redirectTo: ''}
 ];
 
-export const appRoutingModule = RouterModule.forRoot(routes);
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {
+}

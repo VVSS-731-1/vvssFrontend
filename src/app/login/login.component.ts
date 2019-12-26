@@ -1,68 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-
-import { AuthenticationService } from '../_services';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Login} from '../models/login.model';
+import {ToastrService} from 'ngx-toastr';
+import {AuthService} from '../services/auth.service';
+import {LoginService} from '../services/login.service';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
-    loginForm: FormGroup;
-    loading = false;
-    submitted = false;
-    returnUrl: string;
-    error: string;
-    success: string;
+export class LoginComponent implements OnInit {
 
-    constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService){
-        if (this.authenticationService.currentUserValue) {
-            this.router.navigate(['/']);
-        }
-    }
+  loginCreds: Login;
+  userIsAdmin: boolean;
 
-    ngOnInit() {
-        this.loginForm = this.formBuilder.group({
-            username: ['', Validators.required],
-            password: ['', Validators.required]
-        });
+  constructor(private router: Router, private loginService: LoginService,
+              private toastrService: ToastrService, private authService: AuthService,
+              private cookieService: CookieService) {
 
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
 
-        if(this.route.snapshot.queryParams['registered']) {
-            this.success = 'Registration successful!';
-        }
-    }
+  ngOnInit(): void {
+    localStorage.setItem('loggedIn', 'false');
+    this.cookieService.delete('username');
+  }
 
+  login(username, password) {
+    this.loginCreds = {
+      username: username.value,
+      password: password.value
+    };
 
-    get f() {
-        return this.loginForm.controls;
-    }
+    /**
+     this.loginService.sendToBackendUserCredentials(this.loginCreds).subscribe(
+     response => {
+        console.log('response is ', response);
 
-    onSubmit() {
-        this.submitted = true;
+        this.toastrService.success('Login succesful!');
 
-        this.error = null;
-        this.success = null;
+        this.router.navigate(['/home']);
+        this.authService.loggedInSetter();
+        this.cookieService.set('username', this.loginCreds.username);
+      },
+     (error) => {
+        console.log(error);
+        this.toastrService.error(error);
+      }
+     );**/
 
-        if (this.loginForm.invalid) {
-            return;
-        }
+    this.toastrService.success('Login succesful!');
 
-
-        this.loading = true;
-        this.authenticationService.login(this.f.username.value, this.f.password.value)
-            .pipe(first())
-            .subscribe(
-                data => {
-                    this.router.navigate([this.returnUrl]);
-                },
-                error => {
-                    this.error = error;
-                    this.loading = false;
-                });
-    }
+    this.router.navigate(['/home']);
+    this.authService.loggedInSetter();
+    this.cookieService.set('username', this.loginCreds.username);
+  }
 }

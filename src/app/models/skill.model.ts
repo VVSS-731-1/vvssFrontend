@@ -1,4 +1,4 @@
-import {SkillArea} from "@/models/skill-area.model";
+import {SkillArea} from './skill-area.model';
 
 export interface Skill {
     id: number;

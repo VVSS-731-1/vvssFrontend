@@ -1,5 +1,5 @@
-import {Industry} from "@/models/industry.model";
-import {Customer} from "@/models/customer.model";
+import {Industry} from './industry.model';
+import {Customer} from './customer.model';
 
 export interface Project {
     id: number;

@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Route } from '@angular/compiler/src/core';
-import { Router } from '@angular/router';
-import { AuthenticationService, UserService } from '@/_services';
-import { first } from 'rxjs/operators';
+import {Component} from '@angular/core';
 
 @Component({ templateUrl: 'register.component.html' })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
+  /**
     registerForm: FormGroup;
     loading = false;
     submitted = false;
@@ -51,5 +47,5 @@ export class RegisterComponent implements OnInit {
                     this.loading = false;
                 }
             )
-    }
- }
+    }**/
+}

@@ -4,35 +4,28 @@
         <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="profile">
                 <i class = "pi pi-user"></i>
-                {{'HOME.PROFILE'}}
+              Profile
             </a>
         </li>
 
         <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="employees">
+          <a class="nav-link" routerLink="employees-skill-profile">
                 <i class = "pi pi-table"></i>
-                {{'HOME.MANAGEEMPLOYEES'}}
-            </a>
-        </li>
-
-        <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="skill-profile">
-                <i class = "pi pi-exclamation-triangle"></i>
-                {{'HOME.SKILLPROFILE'}}
+            Manage Employees Skill Profile
             </a>
         </li>
 
         <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="projects">
-                <i class="pi pi-plus"></i>
-                {{'HOME.MANAGEPROJECTS'}}
+              <i class="pi pi-file-o"></i>
+              Manage Projects
             </a>
         </li>
 
         <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="masterdata">
+          <a class="nav-link" routerLink="masterdata">
                 <i class="pi pi-globe"></i>
-                {{'HOME.MANAGEMASTERDATA'}}
+            Manage Masterdata
             </a>
         </li>
 
@@ -42,14 +35,14 @@
 
         <li class="nav-item" routerLinkActive="active">
             <a class="nav-link">
-                {{'HOME.SIGNEDINAS'}} {{loggedInUser}}
+              Signed in as: {{loggedInUser}}
             </a>
         </li>
 
         <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink (click) = "logout()">
                 <i class = "pi pi-sign-out" (click)="logout()"></i>
-                {{'HOME.LOGOUT'}}
+              Logout
             </a>
         </li>
 
