@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#1F70E8">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="profile">
+                <i class = "pi pi-user"></i>
+                {{'HOME.PROFILE'}}
+            </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="employees">
+                <i class = "pi pi-table"></i>
+                {{'HOME.MANAGEEMPLOYEES'}}
+            </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="skill-profile">
+                <i class = "pi pi-exclamation-triangle"></i>
+                {{'HOME.SKILLPROFILE'}}
+            </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="projects">
+                <i class="pi pi-plus"></i>
+                {{'HOME.MANAGEPROJECTS'}}
+            </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="masterdata">
+                <i class="pi pi-globe"></i>
+                {{'HOME.MANAGEMASTERDATA'}}
+            </a>
+        </li>
+
+    </ul>
+
+    <ul class="navbar-nav nav-bar-right">
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link">
+                {{'HOME.SIGNEDINAS'}} {{loggedInUser}}
+            </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink (click) = "logout()">
+                <i class = "pi pi-sign-out" (click)="logout()"></i>
+                {{'HOME.LOGOUT'}}
+            </a>
+        </li>
+
+    </ul>
+</nav>
+
+<div class="container-fluid main--container" style = "margin-top: 2%;">
+    <router-outlet></router-outlet>
+</div>
