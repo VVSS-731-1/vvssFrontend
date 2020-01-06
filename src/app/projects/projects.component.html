@@ -1,10 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="content-section implementation">
+  <p-table [columns]="cols" [value]="projectsArray" selectionMode="single" [(selection)]="selectedProject"
+           (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="caption">
+      List of Projects
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of cols">
+          {{rowData[col.field]}}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+      <div style="text-align:left">
+        <button type="button" pButton icon="fa fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+      </div>
+    </ng-template>
+  </p-table>
 
-</body>
-</html>
+  <p-dialog header="Project Details" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
+            [style]="{width: '700px', background: 'lightgrey'}" [focusOnShow]="false" showEffect="fade">
+    <div class="ui-g ui-fluid" *ngIf="selectedProject">
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="id">Id</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                 id="id"
+                 name="id"
+                 class="form-control"
+                 #id="ngModel"
+                 [(ngModel)]="selectedProject.id"
+          >
+          <div style="width:400px" *ngIf="id.touched && id.invalid">
+            <div *ngIf="id.errors.required" style="color:red">
+              Id is required!
+            </div>
+            <div *ngIf="id.errors.pattern" style="color:red">
+              Invalid id!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="name">Name</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                 id="name"
+                 name="name"
+                 class="form-control"
+                 #name="ngModel"
+                 [(ngModel)]="selectedProject.name"
+          >
+          <div style="width:400px" *ngIf="name.touched && name.invalid">
+            <div *ngIf="name.errors.required" style="color:red">
+              Name is required!
+            </div>
+            <div *ngIf="name.errors.pattern" style="color:red">
+              Invalid name!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="description">Description</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                 id="description"
+                 name="description"
+                 class="form-control"
+                 #description="ngModel"
+                 [(ngModel)]="selectedProject.description"
+          >
+          <div style="width:400px" *ngIf="description.touched && description.invalid">
+            <div *ngIf="description.errors.required" style="color:red">
+              Description is required!
+            </div>
+            <div *ngIf="description.errors.pattern" style="color:red">
+              Invalid description!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="status">Status</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                 id="status"
+                 name="status"
+                 class="form-control"
+                 #status="ngModel"
+                 [(ngModel)]="selectedProject.status"
+          >
+          <div style="width:400px" *ngIf="status.touched && status.invalid">
+            <div *ngIf="status.errors.required" style="color:red">
+              Status is required!
+            </div>
+            <div *ngIf="status.errors.pattern" style="color:red">
+              Invalid status!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="duration">Duration</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                 id="duration"
+                 name="duration"
+                 class="form-control"
+                 #duration="ngModel"
+                 [(ngModel)]="selectedProject.duration"
+          >
+          <div style="width:400px" *ngIf="duration.touched && duration.invalid">
+            <div *ngIf="duration.errors.required" style="color:red">
+              Duration is required!
+            </div>
+            <div *ngIf="duration.errors.pattern" style="color:red">
+              Invalid duration!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="industry">Industry</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                 id="industry"
+                 name="industry"
+                 class="form-control"
+                 #industry="ngModel"
+                 [(ngModel)]="selectedProject.industry"
+          >
+          <div style="width:400px" *ngIf="industry.touched && industry.invalid">
+            <div *ngIf="industry.errors.required" style="color:red">
+              Industry is required!
+            </div>
+            <div *ngIf="industry.errors.pattern" style="color:red">
+              Invalid indusrty!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="customer">Customer</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                 id="customer"
+                 name="customer"
+                 class="form-control"
+                 #customer="ngModel"
+                 [(ngModel)]="selectedProject.customer"
+          >
+          <div style="width:400px" *ngIf="customer.touched && customer.invalid">
+            <div *ngIf="customer.errors.required" style="color:red">
+              Customer is required!
+            </div>
+            <div *ngIf="customer.errors.pattern" style="color:red">
+              Invalid customer!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton (click)="save()" label="Save">
+          <i icon="fa fa-check"></i>
+        </button>
+      </div>
+    </p-footer>
+
+  </p-dialog>
+</div>
