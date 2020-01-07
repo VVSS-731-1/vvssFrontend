@@ -15,12 +15,13 @@ import {AppRoutingModule, routes} from './app-routing.module';
 import {LoginService} from './services/login.service';
 import {ToastrModule} from 'ngx-toastr';
 import {CommonModule} from '@angular/common';
-import {CardModule, CheckboxModule, DialogModule, PaginatorModule, TableModule} from 'primeng';
+import {CardModule, CheckboxModule, DialogModule, PaginatorModule, SliderModule, TableModule} from 'primeng';
 import {ButtonModule} from 'primeng/button';
 import {CookieService} from 'ngx-cookie-service';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 @NgModule({
   declarations: [
@@ -44,12 +45,15 @@ import {RegisterComponent} from './register/register.component';
     ToastrModule.forRoot(),
     FormsModule,
     ButtonModule,
+    RadioButtonModule,
+    SliderModule,
     CardModule,
     CheckboxModule,
     TableModule,
     DialogModule,
     CommonModule,
     PaginatorModule,
+    SliderModule,
   ],
   providers: [
     LoginService,

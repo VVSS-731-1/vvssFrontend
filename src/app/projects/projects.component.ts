@@ -4,6 +4,9 @@ import {ToastrService} from 'ngx-toastr';
 import {CookieService} from 'ngx-cookie-service';
 import {ProjectService} from '../services/project.service';
 import {Project} from '../models/project.model';
+import {SelectItem} from 'primeng';
+import {Industry} from '../models/industry.model';
+import {Customer} from '../models/customer.model';
 
 @Component({
     selector: 'app-projects',
@@ -23,6 +26,10 @@ export class ProjectsComponent implements OnInit {
   newProject: boolean;
   loggedInUser: string;
   project: Project;
+  industryNamesForDropdown: SelectItem[];
+  industries: Industry[];
+  customersNamesForDropdown: SelectItem[];
+  customers: Customer[];
 
   ngOnInit(): void {
     this.getAllProjects();
@@ -37,6 +44,28 @@ export class ProjectsComponent implements OnInit {
     ];
 
     this.loggedInUser = this.cookieService.get('username');
+    /**
+     this.projectService.getAllIndustries().subscribe( obj => {
+      this.industries = obj;
+      this.createIndusrtyLabels();
+    });**/
+    this.industries = [
+      {id: 1, name: 'Industry1', description: 'Industry One Description', status: true},
+      {id: 2, name: 'Industry2', description: 'Industry Two Description', status: true},
+    ];
+    this.createIndusrtyLabels();
+
+    /**
+     this.projectService.getAllCustomers().subscribe( obj => {
+      this.customers = obj;
+      this.createCustomersLabels();
+    });**/
+    this.customers = [
+      {id: 1, name: 'CustomerOne', status: false},
+      {id: 2, name: 'CustomerTwo', status: true},
+      {id: 3, name: 'CustomerThree', status: true}
+    ];
+    this.createCustomersLabels();
   }
 
   getAllProjects() {
@@ -88,5 +117,19 @@ export class ProjectsComponent implements OnInit {
     this.projectsArray = this.projectsArray.filter((val, i) => i !== index);
     this.project = null;
     this.displayDialog = false;
+  }
+
+  createIndusrtyLabels() {
+    this.industryNamesForDropdown = [{label: 'No industry', value: null}];
+    for (let i = 0; i < this.industries.length; i++) {
+      this.industryNamesForDropdown.push({label: this.industries[i].name, value: this.industries[i].name});
+    }
+  }
+
+  private createCustomersLabels() {
+    this.customersNamesForDropdown = [{label: 'No customer', value: null}];
+    for (let i = 0; i < this.customers.length; i++) {
+      this.customersNamesForDropdown.push({label: this.customers[i].name, value: this.customers[i].name});
+    }
   }
 }
