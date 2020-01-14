@@ -1,10 +1,14 @@
+import {Project} from './project.model';
+
 export interface User {
-    id: number;
-    firstName: string;
-    lastName: string;
-    username: string;
-    email: string;
-    isAdmin: boolean;
-    projectIds: number[];
-    supervisor: User;
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  admin: boolean;
+  projects: Project[];
+  status: boolean;
+  supervisor: User;
+  supervising: User[];
 }
