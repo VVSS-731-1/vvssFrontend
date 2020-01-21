@@ -10,4 +10,5 @@ export interface Project {
     duration: any;
     industry: Industry;
     customer: Customer;
+  assignedUsers: number[];
 }

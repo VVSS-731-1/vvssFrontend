@@ -4,11 +4,11 @@ import {SkillProfileModel} from './skill-profile.model';
 import {Region} from './region.model';
 
 export interface Profile {
-    id: number;
-  skillProfiles: SkillProfileModel[];
+  id: number;
+  killProfiles: SkillProfileModel[];
   region: Region;
-    consultingLevel: ConsultingLevel;
-    user: User;
-    image: any[];
-    status: boolean;
+  consultingLevel: ConsultingLevel;
+  user: User;
+  image: any[];
+  status: boolean;
 }

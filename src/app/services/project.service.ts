@@ -14,15 +14,15 @@ export class ProjectService {
   }
 
   public getAllProjects(): Observable<Project[]> {
-    return this.backendService.get('');
+    return this.backendService.get('http://localhost:8080/project/getall');
   }
 
   public insertProject(project: Project) {
-    this.backendService.post('', project);
+    return this.backendService.post('', project);
   }
 
   public editProject(project: Project) {
-    this.backendService.put('', project);
+    return this.backendService.put('', project);
   }
 
   getAllIndustries(): Observable<Industry[]> {

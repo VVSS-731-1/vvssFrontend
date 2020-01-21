@@ -7,6 +7,8 @@ import {Project} from '../models/project.model';
 import {SelectItem} from 'primeng';
 import {Industry} from '../models/industry.model';
 import {Customer} from '../models/customer.model';
+import {User} from '../models/user.model';
+import {UserService} from '../services/user.service';
 
 @Component({
     selector: 'app-projects',
@@ -16,10 +18,11 @@ import {Customer} from '../models/customer.model';
 export class ProjectsComponent implements OnInit {
 
   constructor(private backendService: BackendService, private toastrService: ToastrService,
-              private projectService: ProjectService, private cookieService: CookieService) {
+              private projectService: ProjectService, private cookieService: CookieService,
+              private userService: UserService) {
   }
 
-  projectsArray: Project[];
+  projectsArray: Project[] = [];
   cols: any[];
   displayDialog: boolean;
   selectedProject: Project;
@@ -30,6 +33,7 @@ export class ProjectsComponent implements OnInit {
   industries: Industry[];
   customersNamesForDropdown: SelectItem[];
   customers: Customer[];
+  allEmpoyeesList: User[];
 
   ngOnInit(): void {
     this.getAllProjects();
@@ -66,18 +70,123 @@ export class ProjectsComponent implements OnInit {
       {id: 3, name: 'CustomerThree', status: true}
     ];
     this.createCustomersLabels();
+
+    /**
+     // get employees list
+     this.userService.getAllUsers().subscribe( obj => {
+      this.allEmpoyeesList = obj;
+    });**/
+
+    this.allEmpoyeesList = [
+      {
+        id: 1,
+        firstName: 'Ana',
+        lastName: 'Maria',
+        username: 'anamaria',
+        status: true,
+        admin: true,
+        email: 'aaa@yahoo.com',
+        projects: [{
+          id: 1,
+          name: 'Project1',
+          description: '....',
+          status: true,
+          duration: '10',
+          industry: null,
+          customer: null,
+          assignedUsers: [1, 2]
+        }],
+        supervisor: null,
+        supervising: []
+      },
+      {
+        id: 2,
+        firstName: 'Ana2',
+        lastName: 'Maria',
+        username: 'anamaria2',
+        status: true,
+        admin: true,
+        email: 'aaa2@yahoo.com',
+        projects: [{
+          id: 1,
+          name: 'Project1',
+          description: '....',
+          status: true,
+          duration: '10',
+          industry: null,
+          customer: null,
+          assignedUsers: [1, 2]
+        }],
+        supervisor: null,
+        supervising: []
+      },
+      {
+        id: 3,
+        firstName: 'Ana3',
+        lastName: 'Maria',
+        username: 'anamaria3',
+        status: true,
+        admin: true,
+        email: 'aaa3@yahoo.com',
+        projects: [{
+          id: 2,
+          name: 'Project2',
+          description: 'Longer Description.',
+          status: false,
+          duration: '12',
+          industry: null,
+          customer: null,
+          assignedUsers: [2, 3]
+        }],
+        supervisor: null,
+        supervising: []
+      },
+      {
+        id: 4,
+        firstName: 'Ana4',
+        lastName: 'Maria',
+        username: 'anamaria4',
+        status: true,
+        admin: true,
+        email: 'aaa4@yahoo.com',
+        projects: [{
+          id: 2,
+          name: 'Project2',
+          description: 'Longer Description.',
+          status: false,
+          duration: '12',
+          industry: null,
+          customer: null,
+          assignedUsers: [2, 3]
+        }],
+        supervisor: null,
+        supervising: []
+      },
+    ];
   }
 
   getAllProjects() {
     /**
-     this.backendService.get('').subscribe(
+     // get all projects from db
+     this.projectService.getAllProjects().subscribe(
      (projectList) => {
         this.projectsArray = projectList;
       }
-     );**/
+     );
+     **/
+
     this.projectsArray = [
-      {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null},
-      {id: 2, name: 'Project2', description: 'Longer Description.', status: false, duration: '12', industry: null, customer: null}
+      {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null, assignedUsers: [1, 2]},
+      {
+        id: 2,
+        name: 'Project2',
+        description: 'Longer Description.',
+        status: false,
+        duration: '12',
+        industry: null,
+        customer: null,
+        assignedUsers: [2, 3]
+      }
     ];
   }
 
@@ -85,6 +194,7 @@ export class ProjectsComponent implements OnInit {
     this.project = this.cloneProject(event.data);
     this.newProject = false;
     this.displayDialog = true;
+    // this.allAssignedEmployees = this.selectedProject.employees;
   }
 
   cloneProject(project: Project): Project {
@@ -94,29 +204,51 @@ export class ProjectsComponent implements OnInit {
 
   showDialogToAdd() {
     this.newProject = true;
-    this.project = {id: 1, name: '', description: '', status: true, duration: '', industry: null, customer: null};
+    this.project = {id: 1, name: '', description: '', status: true, duration: '', industry: null, customer: null, assignedUsers: []};
     this.displayDialog = true;
-    this.selectedProject = {id: null, name: '', description: '', status: true, duration: '', industry: null, customer: null};
+
+    this.selectedProject = {
+      id: null,
+      name: '',
+      description: '',
+      status: true,
+      duration: '',
+      industry: null,
+      customer: null,
+      assignedUsers: []
+    };
   }
 
   save() {
+    // verify if given data is correct
+    const idRegex = new RegExp('^[0-9]+$');
+    if (!idRegex.test(this.selectedProject.id.toString())) {
+      this.toastrService.error('Invalid id.');
+    }
+
     const projects = [...this.projectsArray];
     if (this.newProject) {
       projects.push(this.project);
+      this.getAllProjects();
     } else {
       projects[this.projectsArray.indexOf(this.selectedProject)] = this.project;
     }
 
     this.projectsArray = projects;
-    this.project = {id: null, name: '', description: '', status: true, duration: '', industry: null, customer: null};
-    this.displayDialog = false;
-  }
 
-  delete() {
-    const index = this.projectsArray.indexOf(this.selectedProject);
-    this.projectsArray = this.projectsArray.filter((val, i) => i !== index);
-    this.project = null;
+    this.project = {id: null, name: '', description: '', status: true, duration: '', industry: null, customer: null, assignedUsers: []};
     this.displayDialog = false;
+
+    /**
+     this.projectService.editProject(this.selectedProject).subscribe (
+     () => {
+        this.toastrService.success('Project updated successfully.');
+        this.getAllProjects();
+      },
+     (error: HttpErrorResponse) => {
+        console.error(error);
+        this.toastrService.error('Could not update project!');
+      });**/
   }
 
   createIndusrtyLabels() {
@@ -132,4 +264,5 @@ export class ProjectsComponent implements OnInit {
       this.customersNamesForDropdown.push({label: this.customers[i].name, value: this.customers[i].name});
     }
   }
+
 }

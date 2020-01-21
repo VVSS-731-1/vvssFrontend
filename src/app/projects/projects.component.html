@@ -170,6 +170,21 @@
           </div>
         </div>
       </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-6">
+          <p-pickList [source]="allEmpoyeesList" [target]="selectedProject.assignedUsers"
+                      [responsive]="true" sourceHeader="All Employees" targetHeader="Assigned Employees">
+            <ng-template let-employee pTemplate="item">
+              <div class="ui-helper-clearfix">
+                <div>
+                  {{employee.firstName}}
+                </div>
+              </div>
+            </ng-template>
+          </p-pickList>
+        </div>
+      </div>
     </div>
 
     <p-footer>
