@@ -15,7 +15,7 @@ import {AppRoutingModule, routes} from './app-routing.module';
 import {LoginService} from './services/login.service';
 import {ToastrModule} from 'ngx-toastr';
 import {CommonModule} from '@angular/common';
-import {CardModule, CheckboxModule, DialogModule, PaginatorModule, SliderModule, TableModule} from 'primeng';
+import {CardModule, CheckboxModule, DialogModule, PaginatorModule, PickListModule, SliderModule, TableModule} from 'primeng';
 import {ButtonModule} from 'primeng/button';
 import {CookieService} from 'ngx-cookie-service';
 import {HomeComponent} from './home/home.component';
@@ -46,6 +46,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     FormsModule,
     ButtonModule,
     RadioButtonModule,
+    PickListModule,
     SliderModule,
     CardModule,
     CheckboxModule,

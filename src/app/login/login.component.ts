@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       password: password.value
     };
 
-    /**
      this.loginService.sendToBackendUserCredentials(this.loginCreds).subscribe(
      response => {
         console.log('response is ', response);
@@ -48,12 +47,12 @@ export class LoginComponent implements OnInit {
         console.log(error);
         this.toastrService.error(error);
       }
-     );**/
-
+     );
+    /**
     this.toastrService.success('Login succesful!');
 
     this.router.navigate(['/home']);
     this.authService.loggedInSetter();
-    this.cookieService.set('username', this.loginCreds.username);
+     this.cookieService.set('username', this.loginCreds.username);**/
   }
 }
