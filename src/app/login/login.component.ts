@@ -5,6 +5,8 @@ import {ToastrService} from 'ngx-toastr';
 import {AuthService} from '../services/auth.service';
 import {LoginService} from '../services/login.service';
 import {CookieService} from 'ngx-cookie-service';
+import {UserService} from '../services/user.service';
+import {User} from '../models/user.model';
 
 @Component({
     selector: 'app-login',
@@ -14,10 +16,12 @@ import {CookieService} from 'ngx-cookie-service';
 export class LoginComponent implements OnInit {
 
   loginCreds: Login;
+  userIsAdmin: boolean;
+  user: User;
 
   constructor(private router: Router, private loginService: LoginService,
               private toastrService: ToastrService, private authService: AuthService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService, private userService: UserService) {
 
   }
 
@@ -34,8 +38,8 @@ export class LoginComponent implements OnInit {
 
     this.loginService.sendToBackendUserCredentials(this.loginCreds).subscribe(
      response => {
-        console.log('response is ', response);
 
+        console.log('response is ', response);
         this.toastrService.success('Login succesful!');
 
         this.router.navigate(['/home']);
@@ -45,12 +49,41 @@ export class LoginComponent implements OnInit {
          console.log('Email');
          this.loginCreds.username = response.username;
        }
+
         this.cookieService.set('username', this.loginCreds.username);
        this.cookieService.set('isAdmin', String(response.admin));
       },
      (error) => {
         console.log(error);
-        this.toastrService.error(error);
+       console.log(this.loginCreds.username);
+       this.toastrService.error('Error by login.');
+       this.userService.getUserAfterUsername(this.loginCreds.username).subscribe(
+         response => {
+           console.log(response.username);
+           if (response.counter < 3) {
+             response.counter = response.counter + 1;
+             this.userService.editUser(response).subscribe(
+               respone2 => {
+                 this.toastrService.error('Could not increase value of failed login attempts.');
+               },
+               (error1) => {
+                 this.toastrService.success('Number of failed attempts to login increased!');
+               }
+             );
+
+           } else if (response.counter === 3) {
+             response.status = false;
+             this.userService.editUser(response).subscribe(
+               respone2 => {
+                 this.toastrService.error('Could not deactivate user.');
+               },
+               (error2) => {
+                 this.toastrService.success('Too many failed attempts. User deactivated.');
+               }
+             );
+           }
+         }
+       );
       }
      );
   }
