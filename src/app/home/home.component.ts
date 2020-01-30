@@ -9,7 +9,6 @@ import {ToastrService} from 'ngx-toastr';
     styleUrls: ['home.component.css']
 })
 export class HomeComponent implements OnInit {
-    loggedInUser: string;
 
     /**in terminal run: npm install ngx-cookie-service --save
      *                  npm install ngx-toastr --save
@@ -21,14 +20,20 @@ export class HomeComponent implements OnInit {
     constructor(private router: Router, private cookieService: CookieService, private toastrService: ToastrService) {
     }
 
+  loggedInUser: string;
+  isAdmin: string;
+
   ngOnInit() {
     this.loggedInUser = this.cookieService.get('username');
+    this.isAdmin = this.cookieService.get('isAdmin');
+    console.log('Admin:' + this.isAdmin);
     }
 
     logout() {
         console.log('You ve been logout');
         this.router.navigate(['/login']);
       this.cookieService.set('username', null);
+      this.cookieService.set('isAdmin', '');
     }
 
 }
