@@ -27,4 +27,5 @@ export class UserService {
   public editUser(user: User) {
     return this.backendService.post('http://localhost:8080/user/update/', user);
   }
+
 }

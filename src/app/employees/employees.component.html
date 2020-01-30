@@ -1,0 +1,213 @@
+<h1 style="text-align: center; padding-bottom: 40px">Manage Employees</h1>
+
+
+<div class="content-section implementation">
+  <p-table [columns]="cols" [value]="employeeArray" selectionMode="single" [(selection)]="selectedEmployee"
+           (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="caption">
+      List of all Employees
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of cols">
+          <div *ngIf=" col.header === 'Status' && rowData[col.field] === true">
+            opened
+          </div>
+          <div *ngIf=" col.header === 'Status' && rowData[col.field] === false">
+            closed
+          </div>
+          <div *ngIf="col.header !=='Status'">
+            {{rowData[col.field]}}
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+      <div style="text-align:left">
+        <button type="button" pButton icon="fa fa-plus" (click)="showDialogToAdd()" label="Add"></button>
+      </div>
+    </ng-template>
+  </p-table>
+
+  <p-dialog header="Employee Details" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
+            [style]="{width: '700px', background: 'lightgrey'}" [focusOnShow]="false" showEffect="fade">
+    <div class="ui-g ui-fluid" *ngIf="selectedEmployee">
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="id">Id</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 pattern="^[0-9]+$"
+                 id="id"
+                 name="id"
+                 class="form-control"
+                 #id="ngModel"
+                 [(ngModel)]="selectedEmployee.id"
+          >
+          <div style="width:400px" *ngIf="id.touched && id.invalid">
+            <div *ngIf="id.errors.required" style="color:red">
+              Id is required!
+            </div>
+            <div *ngIf="id.errors.pattern" style="color:red">
+              The id can contain only numbers!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="firstName">First Name</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 id="firstname"
+                 name="name"
+                 class="form-control"
+                 #firstName="ngModel"
+                 [(ngModel)]="selectedEmployee.firstName"
+          >
+          <div style="width:400px" *ngIf="firstName.touched && firstName.invalid">
+            <div *ngIf="firstName.errors.required" style="color:red">
+              First Name is required!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="lastName">Last Name</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 id="lastname"
+                 name="lastname"
+                 class="form-control"
+                 #lastName="ngModel"
+                 [(ngModel)]="selectedEmployee.lastName"
+          >
+          <div style="width:400px" *ngIf="lastName.touched && lastName.invalid">
+            <div *ngIf="lastName.errors.required" style="color:red">
+              Last Name is required!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="username">Username</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 id="username"
+                 name="name"
+                 class="form-control"
+                 #uname="ngModel"
+                 [(ngModel)]="selectedEmployee.username"
+          >
+          <div style="width:400px" *ngIf="uname.touched && uname.invalid">
+            <div *ngIf="uname.errors.required" style="color:red">
+              Username is required!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="email">E-mail</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input pInputText
+                 required
+                 id="email"
+                 name="name"
+                 class="form-control"
+                 #email="ngModel"
+                 [(ngModel)]="selectedEmployee.firstName"
+          >
+          <div style="width:400px" *ngIf="email.touched && email.invalid">
+            <div *ngIf="email.errors.required" style="color:red">
+              Email is required!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label for="status">Admin</label>
+        </div>
+
+        <div class="ui-g-8">
+          <input
+            type="checkbox"
+            [(ngModel)]="selectedEmployee.username"
+            name="status"
+            id="status">
+        </div>
+      </div>
+
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="employeePopUpLabels" for="industry">Projects</label>
+        </div>
+
+        <div class="ui-g-8">
+          <p-dropdown
+            id="industry"
+            name="industry"
+            [options]="projectsNameForDropdown"
+            [(ngModel)]="selectedEmployee.projectIds"></p-dropdown>
+        </div>
+      </div>
+
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="employeePopUpLabels" for="supervisor">Supervisor</label>
+        </div>
+
+        <div class="ui-g-8">
+          <div class="ui-g-8">
+            <p-dropdown
+              id="supervisor"
+              name="customer"
+              [options]="supervisorsNamesForDropdown"
+              [(ngModel)]="selectedEmployee.supervisor"></p-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save">
+        </button>
+      </div>
+    </p-footer>
+
+  </p-dialog>
+</div>

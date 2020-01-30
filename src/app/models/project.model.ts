@@ -1,11 +1,9 @@
 export interface Project {
-    id: number;
-    name: string;
-    description: string;
-    status: boolean;
-  // duration in backend is long
-    duration: any;
+  id: number;
+  name: string;
+  description: string;
+  status: boolean;
+  duration: any;
   industry: string;
   customer: string;
-  //assignedUsers: number[];
 }

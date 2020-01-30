@@ -23,6 +23,9 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {PDFExportModule} from '@progress/kendo-angular-pdf-export';
+import {EmployeesComponent} from './employees/employees.component';
+import {RegionComponent} from './region/region.component';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +37,8 @@ import {PDFExportModule} from '@progress/kendo-angular-pdf-export';
     ProjectsComponent,
     MasterdataComponent,
     RegisterComponent,
+    EmployeesComponent,
+    RegionComponent
   ],
   imports: [
     BrowserModule,

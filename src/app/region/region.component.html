@@ -1,17 +1,10 @@
-<h1 style="text-align: center; padding-bottom: 40px">Manage Employee's skill profiles</h1>
-
-
-<form class="form-inline my-2 my-lg-0" style="padding-bottom: 15px">
-  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width: 600px">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-</form>
-
+<h1 style="text-align: center; padding-bottom: 40px">Manage Regions</h1>
 
 <div class="content-section implementation">
-  <p-table [columns]="cols" [value]="skillProfilesArray" selectionMode="single" [(selection)]="selectedSkill"
+  <p-table [columns]="cols" [value]="regionsArray" selectionMode="single" [(selection)]="selectedRegion"
            (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10">
     <ng-template pTemplate="caption">
-      List of Employee's Skill Profiles
+      List of all Regions
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -43,9 +36,9 @@
     </ng-template>
   </p-table>
 
-  <p-dialog header="Project Details" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
+  <p-dialog header="Region Details" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
             [style]="{width: '700px', background: 'lightgrey'}" [focusOnShow]="false" showEffect="fade">
-    <div class="ui-g ui-fluid" *ngIf="selectedSkill">
+    <div class="ui-g ui-fluid" *ngIf="selectedRegion">
       <div class="ui-g-12">
         <div class="ui-g-4">
           <label styleClass="projectPopUpLabels" for="id">Id</label>
@@ -59,7 +52,7 @@
                  name="id"
                  class="form-control"
                  #id="ngModel"
-                 [(ngModel)]="selectedSkill.id"
+                 [(ngModel)]="selectedRegion.id"
           >
           <div style="width:400px" *ngIf="id.touched && id.invalid">
             <div *ngIf="id.errors.required" style="color:red">
@@ -84,16 +77,15 @@
                  name="name"
                  class="form-control"
                  #name="ngModel"
-                 [(ngModel)]="selectedSkill.name"
+                 [(ngModel)]="selectedRegion.name"
           >
           <div style="width:400px" *ngIf="name.touched && name.invalid">
             <div *ngIf="name.errors.required" style="color:red">
-              Project Name is required!
+              Region Name is required!
             </div>
           </div>
         </div>
       </div>
-
 
       <div class="ui-g-12">
         <div class="ui-g-4">
@@ -103,14 +95,13 @@
         <div class="ui-g-8">
           <input
             type="checkbox"
-            [(ngModel)]="selectedSkill.status"
+            [(ngModel)]="selectedRegion.status"
             name="status"
             id="status">
         </div>
       </div>
-
-
     </div>
+
 
     <p-footer>
       <div class="ui-dialog-buttonpane ui-helper-clearfix">
