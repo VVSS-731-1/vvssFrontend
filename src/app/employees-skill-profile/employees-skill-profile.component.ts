@@ -5,6 +5,9 @@ import {CookieService} from 'ngx-cookie-service';
 import {SkillService} from '../services/skill.service';
 import {Skill} from '../models/skill.model';
 import {SkillArea} from '../models/skill-area.model';
+import {HttpErrorResponse} from '@angular/common/http';
+import {SkillWrapperModel} from '../models/skill-wrapper.model';
+import {SelectItem} from 'primeng';
 
 @Component({
   selector: 'app-employees',
@@ -19,33 +22,62 @@ export class EmployeesSkillProfileComponent implements OnInit {
   }
 
   cols: any[];
-  skillProfilesArray: Skill[];
-  skillAreasArray: SkillArea[];
+  skillProfilesArray: SkillWrapperModel[] = [];
+  skillsArray: Skill[] = [];
+  skillAreasArray: SkillArea[] = [];
   loggedInUser: string;
   skill: Skill;
   newSkill: boolean;
   displayDialog: boolean;
-  selectedSkill: Skill;
+  selectedSkill: SkillWrapperModel;
+  selectedSimpleSkill: Skill;
+  skillAreaForDropdown: SelectItem[];
+  skillLevelForDropdown: SelectItem[];
 
   ngOnInit(): void {
 
     this.getAllSkillProfiles();
     this.cols = [
       {field: 'id', header: 'ID', width: '150px'},
-      {field: 'skillname', header: 'Skill Name', width: '150px'},
-      {field: 'skillstatus', header: 'Skill Status', width: '150px'},
-      {field: 'skillarea', header: 'Skill Area', width: '150px'},
-      {field: 'level', header: 'Level', width: '150px'}
+      {field: 'name', header: 'Skill Name', width: '150px'},
+      {field: 'skillArea', header: 'Skill Area', width: '150px'},
+      {field: 'skillLevel', header: 'Level', width: '150px'}
     ];
 
     this.loggedInUser = this.cookieService.get('username');
+    this.skillService.getAllSkillAreas().subscribe(
+      (response) => {
+        this.skillAreasArray = response;
+        this.createSkillAreasLabels();
+      }
+    );
+
+    this.skillLevelForDropdown = [{label: '0', value: '0'}, {label: '1', value: '1'}, {label: '2', value: '2'}, {
+      label: '3',
+      value: '3'
+    }, {label: '4', value: '4'}, {label: '5', value: '5'}];
   }
 
   getAllSkillProfiles() {
-    this.skillProfilesArray = [
-      {id: 1, name: 'Skill1', status: true, skillAreas: null},
-      {id: 2, name: 'Skill2', status: false, skillAreas: null}
-    ];
+    this.skillService.getAllSkills().subscribe(
+      (response) => {
+        this.skillsArray = response.filter(x => x.status === true);
+        for (let i = 0; i < this.skillsArray.length; i++) {
+          this.skillProfilesArray.push({
+            id: this.skillsArray[i].id,
+            name: this.skillsArray[i].name,
+            status: this.skillsArray[i].status,
+            skillArea: this.skillsArray[i].skillArea.name,
+            skillLevel: 0
+          });
+        }
+      }
+    );
+
+  }
+
+  searchEmployees() {
+    this.getAllSkillProfiles();
   }
 
   onRowSelect(event) {
@@ -61,21 +93,53 @@ export class EmployeesSkillProfileComponent implements OnInit {
 
   showDialogToAdd() {
     this.newSkill = true;
-    this.skill = {id: 1, name: '', status: true, skillAreas: null};
+    this.skill = {id: 1, name: '', status: true, skillArea: null};
     this.displayDialog = true;
-    this.selectedSkill = {id: null, name: '', status: true, skillAreas: null};
+    this.selectedSkill = {id: null, name: '', status: true, skillArea: null, skillLevel: 0};
   }
 
   save() {
-    const skills = [...this.skillProfilesArray];
+    this.selectedSimpleSkill.id = this.selectedSkill.id;
+    this.selectedSimpleSkill.name = this.selectedSkill.name;
+    this.selectedSimpleSkill.status = this.selectedSkill.status;
+    // need to change
+    this.selectedSimpleSkill.skillArea = null;
     if (this.newSkill) {
-      skills.push(this.skill);
+      this.skillService.insertSkill(this.selectedSimpleSkill).subscribe(
+        () => {
+          this.toastrService.success('Skill inserted successfully.');
+          this.getAllSkillProfiles();
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          if (error.status === 200) {
+            this.getAllSkillProfiles();
+          } else {
+            this.toastrService.error('Could not insert project!');
+          }
+        });
     } else {
-      skills[this.skillProfilesArray.indexOf(this.selectedSkill)] = this.skill;
+      this.skillService.editSkill(this.selectedSimpleSkill).subscribe(
+        () => {
+          this.toastrService.success('Skill updated successfully.');
+          this.getAllSkillProfiles();
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          if (error.status === 200) {
+            this.getAllSkillProfiles();
+          } else {
+            this.toastrService.error('Could not update skill!');
+          }
+        });
     }
-
-    this.skillProfilesArray = skills;
-    this.skill = {id: 1, name: '', status: true, skillAreas: null};
     this.displayDialog = false;
+  }
+
+  private createSkillAreasLabels() {
+    this.skillAreaForDropdown = [{label: 'No skill area', value: null}];
+    for (let i = 0; i < this.skillAreasArray.length; i++) {
+      this.skillAreaForDropdown.push({label: this.skillAreasArray[i].name, value: this.skillAreasArray[i].name});
+    }
   }
 }

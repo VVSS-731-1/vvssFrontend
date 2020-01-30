@@ -4,5 +4,5 @@ export interface Skill {
     id: number;
     name: string;
     status: boolean;
-    skillAreas: SkillArea;
+  skillArea: SkillArea;
 }

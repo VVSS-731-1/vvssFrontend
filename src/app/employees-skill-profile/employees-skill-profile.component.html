@@ -2,8 +2,14 @@
 
 
 <form class="form-inline my-2 my-lg-0" style="padding-bottom: 15px">
-  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width: 600px">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  <input class="form-control mr-sm-2"
+         type="search"
+         placeholder="Search"
+         aria-label="Search"
+         id="username"
+         name="username"
+         style="width: 600px">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="searchEmployees()">Search</button>
 </form>
 
 
@@ -24,15 +30,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">
         <td *ngFor="let col of cols">
-          <div *ngIf=" col.header === 'Status' && rowData[col.field] === true">
-            opened
-          </div>
-          <div *ngIf=" col.header === 'Status' && rowData[col.field] === false">
-            closed
-          </div>
-          <div *ngIf="col.header !=='Status'">
             {{rowData[col.field]}}
-          </div>
         </td>
       </tr>
     </ng-template>
@@ -106,6 +104,34 @@
             [(ngModel)]="selectedSkill.status"
             name="status"
             id="status">
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="skillArea">SkillArea</label>
+        </div>
+
+        <div class="ui-g-8">
+          <p-dropdown
+            id="skillArea"
+            name="skillArea"
+            [options]="skillAreaForDropdown"
+            [(ngModel)]="selectedSkill.skillArea"></p-dropdown>
+        </div>
+      </div>
+
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <label styleClass="projectPopUpLabels" for="skillLevel">SkillLevel</label>
+        </div>
+
+        <div class="ui-g-8">
+          <p-dropdown
+            id="skillLevel"
+            name="skillLevel"
+            [options]="skillLevelForDropdown"
+            [(ngModel)]="selectedSkill.skillLevel"></p-dropdown>
         </div>
       </div>
 

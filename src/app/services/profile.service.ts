@@ -15,7 +15,6 @@ export class ProfileService {
 
   public getProfile(): Observable<Profile[]> {
     return this.backendService.get('http://localhost:8080/profile/getall');
-
   }
 
   public findProfile(): Observable<Profile> {
