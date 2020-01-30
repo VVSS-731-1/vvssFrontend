@@ -15,15 +15,14 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">
         <td *ngFor="let col of cols">
-          <div *ngIf=" col.header === 'Status' && rowData[col.field] === true">
-            opened
+          <div *ngIf=" col.header === 'Industry' || col.header === 'Customer'; else object">
+            {{rowData[col.field].name}}
           </div>
-          <div *ngIf=" col.header === 'Status' && rowData[col.field] === false">
-            closed
-          </div>
-          <div *ngIf="col.header !=='Status'">
-            {{rowData[col.field]}}
-          </div>
+          <ng-template #object>
+            <div>
+              {{rowData[col.field]}}
+            </div>
+          </ng-template>
         </td>
       </tr>
     </ng-template>
@@ -168,21 +167,6 @@
               [options]="customersNamesForDropdown"
               [(ngModel)]="selectedProject.customer"></p-dropdown>
           </div>
-        </div>
-      </div>
-
-      <div class="ui-g-12">
-        <div class="ui-g-6">
-          <p-pickList [source]="allEmpoyeesList" [target]="selectedProject.assignedUsers"
-                      [responsive]="true" sourceHeader="All Employees" targetHeader="Assigned Employees">
-            <ng-template let-employee pTemplate="item">
-              <div class="ui-helper-clearfix">
-                <div>
-                  {{employee.firstName}}
-                </div>
-              </div>
-            </ng-template>
-          </p-pickList>
         </div>
       </div>
     </div>

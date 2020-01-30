@@ -9,6 +9,7 @@ import {Industry} from '../models/industry.model';
 import {Customer} from '../models/customer.model';
 import {User} from '../models/user.model';
 import {UserService} from '../services/user.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
     selector: 'app-projects',
@@ -41,35 +42,36 @@ export class ProjectsComponent implements OnInit {
       {field: 'id', header: 'ID', width: '150px'},
       {field: 'name', header: 'Project Name', width: '150px'},
       {field: 'description', header: 'Description', width: '150px'},
-      {field: 'status', header: 'Status', width: '150px'},
       {field: 'duration', header: 'Duration', width: '150px'},
       {field: 'industry', header: 'Industry', width: '150px'},
       {field: 'customer', header: 'Customer', width: '150px'}
     ];
 
     this.loggedInUser = this.cookieService.get('username');
-    /**
-     this.projectService.getAllIndustries().subscribe( obj => {
+
+    this.projectService.getAllIndustries().subscribe(obj => {
       this.industries = obj;
       this.createIndusrtyLabels();
-    });**/
+    });
+    /**
     this.industries = [
       {id: 1, name: 'Industry1', description: 'Industry One Description', status: true},
       {id: 2, name: 'Industry2', description: 'Industry Two Description', status: true},
     ];
-    this.createIndusrtyLabels();
+     this.createIndusrtyLabels();**/
 
-    /**
-     this.projectService.getAllCustomers().subscribe( obj => {
+
+    this.projectService.getAllCustomers().subscribe(obj => {
       this.customers = obj;
       this.createCustomersLabels();
-    });**/
+    });
+    /**
     this.customers = [
       {id: 1, name: 'CustomerOne', status: false},
       {id: 2, name: 'CustomerTwo', status: true},
       {id: 3, name: 'CustomerThree', status: true}
     ];
-    this.createCustomersLabels();
+     this.createCustomersLabels();**/
 
     /**
      // get employees list
@@ -93,8 +95,7 @@ export class ProjectsComponent implements OnInit {
           status: true,
           duration: '10',
           industry: null,
-          customer: null,
-          assignedUsers: [1, 2]
+          customer: null// , assignedUsers: [1, 2]
         }],
         supervisor: null,
         supervising: []
@@ -114,8 +115,7 @@ export class ProjectsComponent implements OnInit {
           status: true,
           duration: '10',
           industry: null,
-          customer: null,
-          assignedUsers: [1, 2]
+          customer: null// , assignedUsers: [1, 2]
         }],
         supervisor: null,
         supervising: []
@@ -135,8 +135,7 @@ export class ProjectsComponent implements OnInit {
           status: false,
           duration: '12',
           industry: null,
-          customer: null,
-          assignedUsers: [2, 3]
+          customer: null// , assignedUsers: [2, 3]
         }],
         supervisor: null,
         supervising: []
@@ -156,8 +155,7 @@ export class ProjectsComponent implements OnInit {
           status: false,
           duration: '12',
           industry: null,
-          customer: null,
-          assignedUsers: [2, 3]
+          customer: null// , assignedUsers: [2, 3]
         }],
         supervisor: null,
         supervising: []
@@ -166,18 +164,17 @@ export class ProjectsComponent implements OnInit {
   }
 
   getAllProjects() {
-    /**
      // get all projects from db
      this.projectService.getAllProjects().subscribe(
      (projectList) => {
-        this.projectsArray = projectList;
+       this.projectsArray = projectList.filter(x => x.status === true);
       }
      );
-     **/
 
-    this.projectsArray = [
-      {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null, assignedUsers: [1, 2]},
-      {
+    /**
+     this.projectsArray = [
+     {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null, assignedUsers: [1, 2]},
+     {
         id: 2,
         name: 'Project2',
         description: 'Longer Description.',
@@ -187,7 +184,7 @@ export class ProjectsComponent implements OnInit {
         customer: null,
         assignedUsers: [2, 3]
       }
-    ];
+     ];**/
   }
 
   onRowSelect(event) {
@@ -204,7 +201,7 @@ export class ProjectsComponent implements OnInit {
 
   showDialogToAdd() {
     this.newProject = true;
-    this.project = {id: 1, name: '', description: '', status: true, duration: '', industry: null, customer: null, assignedUsers: []};
+    // this.project = {id: 1, name: '', description: '', status: true, duration: '', industry: null, customer: null}; // , assignedUsers: []};
     this.displayDialog = true;
 
     this.selectedProject = {
@@ -214,8 +211,7 @@ export class ProjectsComponent implements OnInit {
       status: true,
       duration: '',
       industry: null,
-      customer: null,
-      assignedUsers: []
+      customer: null // , assignedUsers: []
     };
   }
 
@@ -226,29 +222,55 @@ export class ProjectsComponent implements OnInit {
       this.toastrService.error('Invalid id.');
     }
 
-    const projects = [...this.projectsArray];
+    this.selectedProject.industry = this.searchIndustry(String(this.selectedProject.industry));
+    this.selectedProject.customer = this.searchCustomer(String(this.selectedProject.customer));
     if (this.newProject) {
-      projects.push(this.project);
-      this.getAllProjects();
+      console.log('New project!');
+      console.log(this.selectedProject.industry);
+      // search for indusrty and customer
+      this.projectService.insertProject(this.selectedProject).subscribe(
+        () => {
+          this.toastrService.success('Project inserted successfully.');
+          this.getAllProjects();
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.toastrService.error('Could not insert project!');
+        });
     } else {
-      projects[this.projectsArray.indexOf(this.selectedProject)] = this.project;
+      this.projectService.editProject(this.selectedProject).subscribe(
+        () => {
+          this.toastrService.success('Project updated successfully.');
+          this.getAllProjects();
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.toastrService.error('Could not update project!');
+        });
     }
 
-    this.projectsArray = projects;
 
-    this.project = {id: null, name: '', description: '', status: true, duration: '', industry: null, customer: null, assignedUsers: []};
     this.displayDialog = false;
+  }
 
-    /**
-     this.projectService.editProject(this.selectedProject).subscribe (
-     () => {
-        this.toastrService.success('Project updated successfully.');
-        this.getAllProjects();
-      },
-     (error: HttpErrorResponse) => {
-        console.error(error);
-        this.toastrService.error('Could not update project!');
-      });**/
+  searchIndustry(iname: string): Industry {
+    for (let i = 0; i < this.industries.length; i++) {
+      if (this.industries[i].name === iname) {
+        return this.industries[i];
+      }
+    }
+
+    return null;
+  }
+
+  searchCustomer(cname: string): Customer {
+    for (let i = 0; i < this.customers.length; i++) {
+      if (this.customers[i].name === cname) {
+        return this.customers[i];
+      }
+    }
+
+    return null;
   }
 
   createIndusrtyLabels() {

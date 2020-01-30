@@ -5,7 +5,7 @@ import {Region} from './region.model';
 
 export interface Profile {
   id: number;
-  killProfiles: SkillProfileModel[];
+  skillProfiles: SkillProfileModel[];
   region: Region;
   consultingLevel: ConsultingLevel;
   user: User;

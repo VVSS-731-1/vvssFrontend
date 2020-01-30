@@ -63,14 +63,18 @@ export class BackendService {
 
   public login(url: string, data: any): Observable<any> {
     const requestUrl = `${url}`;
-    return this.http.request('POST', requestUrl, {body: data, withCredentials: true});
+    return this.http.request('POST', requestUrl, {body: data, withCredentials: false});
   }
 
   private invoke(method: string, url: string, data: any = {}, params?: any): Observable<any> {
     const options = {
       body: data,
       params,
-      withCredentials: true
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      withCredentials: false
     };
     if (!url) {
       throw new Error('No URL provided.');

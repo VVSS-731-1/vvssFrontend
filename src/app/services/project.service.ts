@@ -18,18 +18,18 @@ export class ProjectService {
   }
 
   public insertProject(project: Project) {
-    return this.backendService.post('', project);
+    return this.backendService.post('http://localhost:8080/project/add/', project);
   }
 
   public editProject(project: Project) {
-    return this.backendService.put('', project);
+    return this.backendService.post('http://localhost:8080/project/update/', project);
   }
 
   getAllIndustries(): Observable<Industry[]> {
-    return this.backendService.get('');
+    return this.backendService.get('http://localhost:8080/industry/getall');
   }
 
   getAllCustomers(): Observable<Customer[]> {
-    return this.backendService.get('');
+    return this.backendService.get('http://localhost:8080/customer/getall');
   }
 }
