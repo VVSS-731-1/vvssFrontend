@@ -98,6 +98,18 @@ export class ProjectsComponent implements OnInit {
     };
   }
 
+  delete() {
+    this.projectService.deleteProject(this.selectedProject).subscribe(
+      () => {
+        this.toastrService.error('Error at deleting project!');
+      },
+      (error1: HttpErrorResponse) => {
+        this.toastrService.success('Project deleted successfully!');
+        this.getAllProjects();
+      }
+    );
+  }
+
   save() {
     // verify if given data is correct
     const idRegex = new RegExp('^[0-9]+$');

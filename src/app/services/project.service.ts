@@ -32,4 +32,8 @@ export class ProjectService {
   getAllCustomers(): Observable<Customer[]> {
     return this.backendService.get('http://localhost:8080/customer/getall');
   }
+
+  deleteProject(project: Project) {
+    return this.backendService.post('http://localhost:8080/project/deactivate/', project);
+  }
 }

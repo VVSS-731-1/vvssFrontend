@@ -14,7 +14,6 @@ import {CookieService} from 'ngx-cookie-service';
 export class LoginComponent implements OnInit {
 
   loginCreds: Login;
-  userIsAdmin: boolean;
 
   constructor(private router: Router, private loginService: LoginService,
               private toastrService: ToastrService, private authService: AuthService,
