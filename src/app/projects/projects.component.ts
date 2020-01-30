@@ -170,21 +170,6 @@ export class ProjectsComponent implements OnInit {
        this.projectsArray = projectList.filter(x => x.status === true);
       }
      );
-
-    /**
-     this.projectsArray = [
-     {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null, assignedUsers: [1, 2]},
-     {
-        id: 2,
-        name: 'Project2',
-        description: 'Longer Description.',
-        status: false,
-        duration: '12',
-        industry: null,
-        customer: null,
-        assignedUsers: [2, 3]
-      }
-     ];**/
   }
 
   onRowSelect(event) {
@@ -222,8 +207,6 @@ export class ProjectsComponent implements OnInit {
       this.toastrService.error('Invalid id.');
     }
 
-    this.selectedProject.industry = this.searchIndustry(String(this.selectedProject.industry));
-    this.selectedProject.customer = this.searchCustomer(String(this.selectedProject.customer));
     if (this.newProject) {
       console.log('New project!');
       console.log(this.selectedProject.industry);
@@ -235,7 +218,11 @@ export class ProjectsComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           console.error(error);
-          this.toastrService.error('Could not insert project!');
+          if (error.status === 200) {
+            this.getAllProjects();
+          } else {
+            this.toastrService.error('Could not insert project!');
+          }
         });
     } else {
       this.projectService.editProject(this.selectedProject).subscribe(
@@ -245,7 +232,11 @@ export class ProjectsComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           console.error(error);
-          this.toastrService.error('Could not update project!');
+          if (error.status === 200) {
+            this.getAllProjects();
+          } else {
+            this.toastrService.error('Could not insert project!');
+          }
         });
     }
 

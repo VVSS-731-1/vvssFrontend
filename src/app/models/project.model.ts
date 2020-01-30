@@ -1,6 +1,3 @@
-import {Industry} from './industry.model';
-import {Customer} from './customer.model';
-
 export interface Project {
     id: number;
     name: string;
@@ -8,7 +5,7 @@ export interface Project {
     status: boolean;
   // duration in backend is long
     duration: any;
-    industry: Industry;
-    customer: Customer;
+  industry: string;
+  customer: string;
   //assignedUsers: number[];
 }

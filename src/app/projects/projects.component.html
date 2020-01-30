@@ -15,14 +15,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">
         <td *ngFor="let col of cols">
-          <div *ngIf=" col.header === 'Industry' || col.header === 'Customer'; else object">
-            {{rowData[col.field].name}}
-          </div>
-          <ng-template #object>
-            <div>
-              {{rowData[col.field]}}
-            </div>
-          </ng-template>
+          {{rowData[col.field]}}
         </td>
       </tr>
     </ng-template>
