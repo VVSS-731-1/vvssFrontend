@@ -5,8 +5,8 @@ import {Region} from './region.model';
 
 export interface Profile {
     id: number;
-  skillProfiles: SkillProfileModel[];
-  region: Region;
+    skillProfiles: SkillProfileModel[];
+    region: Region;
     consultingLevel: ConsultingLevel;
     user: User;
     image: any[];

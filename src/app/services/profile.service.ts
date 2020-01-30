@@ -11,7 +11,8 @@ export class ProfileService {
   constructor(private backendService: BackendService) {
   }
 
-  public getAllProfiles(): Observable<Profile[]> {
-    return this.backendService.get('');
+  public getProfile(): Observable<Profile> {
+    return this.backendService.get('http://localhost:8080/profile/getall');
+
   }
 }
