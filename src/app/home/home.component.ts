@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
     logout() {
         console.log('You ve been logout');
         this.router.navigate(['/login']);
+      this.cookieService.set('username', null);
     }
 
 }

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       password: password.value
     };
 
-     this.loginService.sendToBackendUserCredentials(this.loginCreds).subscribe(
+    this.loginService.sendToBackendUserCredentials(this.loginCreds).subscribe(
      response => {
         console.log('response is ', response);
 
@@ -41,18 +41,18 @@ export class LoginComponent implements OnInit {
 
         this.router.navigate(['/home']);
         this.authService.loggedInSetter();
+
+       if (this.loginCreds.username.indexOf('@') >= 0) {
+         console.log('Email');
+         this.loginCreds.username = response.username;
+       }
         this.cookieService.set('username', this.loginCreds.username);
+       this.cookieService.set('isAdmin', String(response.admin));
       },
      (error) => {
         console.log(error);
         this.toastrService.error(error);
       }
      );
-    /**
-    this.toastrService.success('Login succesful!');
-
-    this.router.navigate(['/home']);
-    this.authService.loggedInSetter();
-     this.cookieService.set('username', this.loginCreds.username);**/
   }
 }
