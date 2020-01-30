@@ -20,6 +20,10 @@ export class UserService {
     return this.backendService.get('http://localhost:8080/user/getbyid/' + id);
   }
 
+  public addUser(user: User) {
+    return this.backendService.post('http://localhost:8080/user/add/', user);
+  }
+
   public getUserAfterUsername(name: string): Observable<User> {
     return this.backendService.get('http://localhost:8080/user/getbyname/' + name);
   }

@@ -6,6 +6,9 @@ import {EmployeeService} from '../services/employee.service';
 import {User} from '../models/user.model';
 import {Project} from '../models/project.model';
 import {SelectItem} from 'primeng';
+import {UserService} from '../services/user.service';
+import {ProjectService} from '../services/project.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-employees',
@@ -15,7 +18,8 @@ import {SelectItem} from 'primeng';
 export class EmployeesComponent implements OnInit {
 
   constructor(private backendService: BackendService, private toastrService: ToastrService,
-              private employeeService: EmployeeService, private cookieService: CookieService) {
+              private employeeService: EmployeeService, private cookieService: CookieService,
+              private userService: UserService, private projectService: ProjectService) {
   }
 
   employeeArray: User[];
@@ -39,12 +43,14 @@ export class EmployeesComponent implements OnInit {
       {field: 'lastName', header: 'Last Name', width: '150px'},
       {field: 'username', header: 'Username', width: '150px'},
       {field: 'email', header: 'E-mail', width: '150px'},
-      {field: 'isAdmin', header: 'Admin', width: '150px'},
-      {field: 'projectIds', header: 'Projects', width: '150px'},
-      {field: 'supervisor', header: 'Supervisor', width: '150px'}
+      {field: 'admin', header: 'Admin', width: '150px'},
+      {field: 'counter', header: 'Nb Failed Attempts', width: '150px'},
+      //{field: 'supervisor', header: 'Supervisor', width: '150px'}
     ];
-    this.supervisors = [
-      {
+
+    /**
+     this.supervisors = [
+     {
         id: 3,
         firstName: 'Supervisor1',
         lastName: 'Super',
@@ -57,8 +63,8 @@ export class EmployeesComponent implements OnInit {
         supervisor: null,
         supervising: []
       }
-    ];
-    this.supervisorTest = {
+     ];
+     this.supervisorTest = {
       id: 3,
       firstName: 'Supervisor1',
       lastName: 'Super',
@@ -71,44 +77,20 @@ export class EmployeesComponent implements OnInit {
       supervisor: null,
       supervising: []
     };
-    this.projects = [
-      {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null},
-      {id: 2, name: 'Project2', description: 'Longer Description.', status: false, duration: '12', industry: null, customer: null}
-    ];
+     this.projects = [
+     {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null},
+     {id: 2, name: 'Project2', description: 'Longer Description.', status: false, duration: '12', industry: null, customer: null}
+     ];**/
     this.createSupervisorsLabels();
     this.createProjectsLabels();
   }
 
   getAllEmployees() {
-    this.employeeArray = [
-      // tslint:disable-next-line:max-line-length
-      {
-        id: 1,
-        firstName: 'Matyas',
-        lastName: 'Buzogany',
-        username: 'matyi',
-        email: 'matyasbuzogany@gmail.com',
-        admin: true,
-        counter: 0,
-        projects: [],
-        status: true,
-        supervisor: this.supervisorTest,
-        supervising: []
-      },
-      {
-        id: 2,
-        firstName: 'Feri',
-        lastName: 'Nagy',
-        username: 'ferike',
-        email: 'ferike@gmail.com',
-        admin: true,
-        counter: 0,
-        projects: [],
-        status: true,
-        supervisor: this.supervisorTest,
-        supervising: []
+    this.userService.getAllUsers().subscribe(
+      (response) => {
+        this.employeeArray = response;
       }
-    ];
+    );
   }
 
   cloneEmployee(employee: User): User {
@@ -155,8 +137,8 @@ export class EmployeesComponent implements OnInit {
 
   private createSupervisorsLabels() {
     this.supervisorsNamesForDropdown = [{label: 'No supervisor', value: null}];
-    for (let i = 0; i < this.supervisors.length; i++) {
-      this.supervisorsNamesForDropdown.push({label: this.supervisors[i].username, value: this.supervisors[i].username});
+    for (let i = 0; i < this.employeeArray.length; i++) {
+      this.supervisorsNamesForDropdown.push({label: this.employeeArray[i].username, value: this.employeeArray[i].username});
     }
   }
 
@@ -168,27 +150,36 @@ export class EmployeesComponent implements OnInit {
   }
 
   save() {
-    const employees = [...this.employeeArray];
     if (this.newEmployee) {
-      employees.push(this.employee);
+      this.userService.addUser(this.selectedEmployee).subscribe(
+        () => {
+          this.toastrService.success('User inserted successfully.');
+          this.getAllEmployees();
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          if (error.status === 200) {
+            this.getAllEmployees();
+          } else {
+            this.toastrService.error('Could not insert user!');
+          }
+        });
     } else {
-      employees[this.employeeArray.indexOf(this.selectedEmployee)] = this.employee;
+      this.userService.editUser(this.selectedEmployee).subscribe(
+        () => {
+          this.toastrService.success('Skill updated successfully.');
+          this.getAllEmployees();
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          if (error.status === 200) {
+            this.toastrService.success('Skill updated successfully.');
+            this.getAllEmployees();
+          } else {
+            this.toastrService.error('Could not update skill!');
+          }
+        });
     }
-
-    this.employeeArray = employees;
-    this.employee = {
-      id: 1,
-      firstName: '',
-      lastName: '',
-      username: '',
-      email: '',
-      admin: true,
-      counter: 0,
-      projects: [],
-      status: true,
-      supervisor: null,
-      supervising: []
-    };
     this.displayDialog = false;
   }
 

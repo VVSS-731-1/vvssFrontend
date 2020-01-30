@@ -13,19 +13,19 @@ export class SkillService {
   }
 
   public getAllSkills(): Observable<Skill[]> {
-    return this.backendService.get('');
+    return this.backendService.get('http://localhost:8080/skill/getall');
   }
 
   public insertSkill(skill: Skill) {
-    this.backendService.post('', skill);
+    return this.backendService.post('http://localhost:8080/skill/add', skill);
   }
 
   public editSkill(skill: Skill) {
-    this.backendService.put('', skill);
+    return this.backendService.post('http://localhost:8080/skill/update', skill);
   }
 
   getAllSkillAreas(): Observable<SkillArea[]> {
-    return this.backendService.get('');
+    return this.backendService.get('http://localhost:8080/skillArea/getall');
   }
 
   getAllSkillProfiles(): Observable<Skill[]> {

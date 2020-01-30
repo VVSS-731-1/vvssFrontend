@@ -130,6 +130,7 @@ export class ProjectsComponent implements OnInit {
           console.error(error);
           if (error.status === 200) {
             this.getAllProjects();
+            this.toastrService.success('Project inserted successfully.');
           } else {
             this.toastrService.error('Could not insert project!');
           }
@@ -144,6 +145,8 @@ export class ProjectsComponent implements OnInit {
           console.error(error);
           if (error.status === 200) {
             this.getAllProjects();
+            this.toastrService.success('Project updated successfully.');
+
           } else {
             this.toastrService.error('Could not insert project!');
           }

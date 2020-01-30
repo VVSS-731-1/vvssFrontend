@@ -162,27 +162,28 @@
         <div class="ui-g-8">
           <input
             type="checkbox"
-            [(ngModel)]="selectedEmployee.username"
+            [(ngModel)]="selectedEmployee.admin"
             name="status"
             id="status">
         </div>
       </div>
 
-
       <div class="ui-g-12">
         <div class="ui-g-4">
-          <label styleClass="employeePopUpLabels" for="industry">Projects</label>
+          <label styleClass="projectPopUpLabels" for="counter">Nb of failed attempts</label>
         </div>
 
         <div class="ui-g-8">
-          <p-dropdown
-            id="industry"
-            name="industry"
-            [options]="projectsNameForDropdown"
-            [(ngModel)]="selectedEmployee.projectIds"></p-dropdown>
+          <input pInputText
+                 required
+                 id="counter"
+                 name="counter"
+                 class="form-control"
+                 #email="ngModel"
+                 [(ngModel)]="selectedEmployee.counter"
+          >
         </div>
       </div>
-
 
       <div class="ui-g-12">
         <div class="ui-g-4">
