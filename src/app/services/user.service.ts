@@ -13,14 +13,18 @@ export class UserService {
   }
 
   public getAllUsers(): Observable<User[]> {
-    return this.backendService.get('');
+    return this.backendService.get('http://localhost:8080/user/getall');
   }
 
   public getAUser(id: number): Observable<User> {
-    return this.backendService.get('/' + id);
+    return this.backendService.get('http://localhost:8080/user/getbyid/' + id);
   }
 
-  public getUserAfterUsername(): Observable<User> {
-    return this.backendService.get('', this.cookieService.get('username'));
+  public getUserAfterUsername(name: string): Observable<User> {
+    return this.backendService.get('http://localhost:8080/user/getbyname/' + this.cookieService.get('username'));
+  }
+
+  public editUser(user: User) {
+    return this.backendService.post('http://localhost:8080/user/update/', user);
   }
 }

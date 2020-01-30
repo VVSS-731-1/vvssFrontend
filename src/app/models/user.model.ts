@@ -7,6 +7,7 @@ export interface User {
   username: string;
   email: string;
   admin: boolean;
+  counter: number;
   projects: Project[];
   status: boolean;
   supervisor: User;
