@@ -22,6 +22,7 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {PDFExportModule} from '@progress/kendo-angular-pdf-export';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     CommonModule,
     PaginatorModule,
     SliderModule,
+    PDFExportModule,
   ],
   providers: [
     LoginService,

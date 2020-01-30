@@ -5,9 +5,10 @@ import {CookieService} from 'ngx-cookie-service';
 import {SkillProfileModel} from '../models/skill-profile.model';
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.css']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css'],
+  styles: ['kendo-pdf-export { font-family: "DejaVu Sans", "Arial", sans-serif; font-size: 12px;}']
 })
 export class ProfileComponent implements OnInit {
   private username: string;
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService: ProfileService, private cookieService: CookieService) {
 
   }
+
   profiles: Profile[];
   index: number;
   profile: Profile;
@@ -36,9 +38,9 @@ export class ProfileComponent implements OnInit {
 
       for (let i = 0; i < this.profiles.length; i++) {
         if (this.profiles[i].user.username == this.username) {
-            this.profile = this.profiles[i];
-            this.index = i + 1;
-            break;
+          this.profile = this.profiles[i];
+          this.index = i + 1;
+          break;
         }
       }
 

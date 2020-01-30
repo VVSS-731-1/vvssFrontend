@@ -1,13 +1,22 @@
-<div>
-  <label>First name: {{profile.user.firstName}}</label>
-  <br>
-  <label>Last name: {{profile.user.lastName}}</label>
-  <br>
-  <label>Region: {{profile.region.name}}</label>
-  <br>
-  <label>Consulting Level: {{profile.consultingLevel.name}}</label>
-  <br>
-  <label>Skills: {{skills.toString()}}</label>
-  <br>
-  <label>Projects: {{projects.toString()}}</label>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="card">
+  <kendo-pdf-export #pdf paperSize="A4" margin="2cm">
+    <img src="assets/profileImg.png" alt=profile style="width:60%">
+    <h3>{{profile.user.firstName}} {{profile.user.lastName}}</h3>
+    <br>
+    <label class="label-text">Region: {{profile.region.name}}</label>
+    <br>
+    <label class="label-text">Consulting Level: {{profile.consultingLevel.name}}</label>
+    <br>
+    <label class="label-text">Skills: {{skills.toString()}}</label>
+    <br>
+    <label class="label-text">Projects: {{projects.toString()}}</label>
+
+  </kendo-pdf-export>
+
+  <div>
+    <button class="btn btn-info btn-sm" (click)="pdf.saveAs('profile.pdf')">PDF</button>
+  </div>
+
 </div>
