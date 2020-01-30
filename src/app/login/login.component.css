@@ -1,0 +1,12 @@
+.padd {
+  position: absolute;
+  margin-left: 41%;
+  margin-top: 3%;
+}
+
+
+.form-control.ng-invalid.ng-touched {
+  border: 2px;
+  border-style: solid;
+  border-color: #ff5c81;
+}

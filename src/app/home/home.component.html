@@ -1,0 +1,71 @@
+<script src="jquery.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="bootstrap-auto-dismiss-alert.js"></script>
+
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#1F70E8">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropDown">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="profile">
+          <i class = "pi pi-user"></i>
+          Profile
+        </a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="employees-skill-profile">
+          <i class = "pi pi-table"></i>
+          Manage Employees Skill Profile
+        </a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="projects">
+          <i class="pi pi-file-o"></i>
+          Manage Projects
+        </a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="employees">
+          <i class="pi pi-user"></i>
+          Manage Employees
+        </a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="region">
+          <i class="pi pi-globe"></i>
+          Manage Regions
+        </a>
+      </li>
+
+    </ul>
+
+    <ul class="navbar-nav nav-bar-right">
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link">
+          Signed in as: {{loggedInUser}}
+        </a>
+      </li>
+
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink (click) = "logout()">
+          <i class = "pi pi-sign-out" (click)="logout()"></i>
+          Logout
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+<div class="container-fluid main--container" style = "margin-top: 2%;">
+  <router-outlet></router-outlet>
+</div>
