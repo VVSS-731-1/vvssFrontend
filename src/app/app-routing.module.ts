@@ -4,10 +4,11 @@ import {AuthGuardService} from './guards/auth-guard.service';
 import {ProfileComponent} from './profile/profile.component';
 import {EmployeesSkillProfileComponent} from './employees-skill-profile/employees-skill-profile.component';
 import {ProjectsComponent} from './projects/projects.component';
-import {MasterdataComponent} from './master-data/masterdata.component';
 import {NgModule} from '@angular/core';
 import {LoginComponent} from './login/login.component';
 import {HomeComponent} from './home/home.component';
+import {RegionComponent} from './region/region.component';
+import {EmployeesComponent} from './employees/employees.component';
 
 
 export const routes: Routes = [
@@ -39,9 +40,13 @@ export const routes: Routes = [
                 component: ProjectsComponent
             },
             {
-                path: 'masterdata',
-                component: MasterdataComponent
+              path: 'employees',
+              component: EmployeesComponent
             },
+          {
+            path: 'region',
+            component: RegionComponent
+          }
         ]
     },
 ];

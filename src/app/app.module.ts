@@ -22,6 +22,9 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {EmployeesComponent} from './employees/employees.component';
+import {RegionComponent} from './region/region.component';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +36,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
     ProjectsComponent,
     MasterdataComponent,
     RegisterComponent,
+    EmployeesComponent,
+    RegionComponent
   ],
   imports: [
     BrowserModule,
