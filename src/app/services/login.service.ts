@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private backendService: BackendService) {
   }
 
-  sendToBackendUserCredentials(loginCreds: Login): Observable<User[]> {
+  sendToBackendUserCredentials(loginCreds: Login): Observable<User> {
     return this.backendService.post('http://localhost:8080/user/login/', JSON.stringify(loginCreds));
   }
 }

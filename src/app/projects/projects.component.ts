@@ -53,114 +53,12 @@ export class ProjectsComponent implements OnInit {
       this.industries = obj;
       this.createIndusrtyLabels();
     });
-    /**
-    this.industries = [
-      {id: 1, name: 'Industry1', description: 'Industry One Description', status: true},
-      {id: 2, name: 'Industry2', description: 'Industry Two Description', status: true},
-    ];
-     this.createIndusrtyLabels();**/
-
 
     this.projectService.getAllCustomers().subscribe(obj => {
       this.customers = obj;
       this.createCustomersLabels();
     });
-    /**
-    this.customers = [
-      {id: 1, name: 'CustomerOne', status: false},
-      {id: 2, name: 'CustomerTwo', status: true},
-      {id: 3, name: 'CustomerThree', status: true}
-    ];
-     this.createCustomersLabels();**/
 
-    /**
-     // get employees list
-     this.userService.getAllUsers().subscribe( obj => {
-      this.allEmpoyeesList = obj;
-    });**/
-
-    this.allEmpoyeesList = [
-      {
-        id: 1,
-        firstName: 'Ana',
-        lastName: 'Maria',
-        username: 'anamaria',
-        status: true,
-        admin: true,
-        email: 'aaa@yahoo.com',
-        projects: [{
-          id: 1,
-          name: 'Project1',
-          description: '....',
-          status: true,
-          duration: '10',
-          industry: null,
-          customer: null// , assignedUsers: [1, 2]
-        }],
-        supervisor: null,
-        supervising: []
-      },
-      {
-        id: 2,
-        firstName: 'Ana2',
-        lastName: 'Maria',
-        username: 'anamaria2',
-        status: true,
-        admin: true,
-        email: 'aaa2@yahoo.com',
-        projects: [{
-          id: 1,
-          name: 'Project1',
-          description: '....',
-          status: true,
-          duration: '10',
-          industry: null,
-          customer: null// , assignedUsers: [1, 2]
-        }],
-        supervisor: null,
-        supervising: []
-      },
-      {
-        id: 3,
-        firstName: 'Ana3',
-        lastName: 'Maria',
-        username: 'anamaria3',
-        status: true,
-        admin: true,
-        email: 'aaa3@yahoo.com',
-        projects: [{
-          id: 2,
-          name: 'Project2',
-          description: 'Longer Description.',
-          status: false,
-          duration: '12',
-          industry: null,
-          customer: null// , assignedUsers: [2, 3]
-        }],
-        supervisor: null,
-        supervising: []
-      },
-      {
-        id: 4,
-        firstName: 'Ana4',
-        lastName: 'Maria',
-        username: 'anamaria4',
-        status: true,
-        admin: true,
-        email: 'aaa4@yahoo.com',
-        projects: [{
-          id: 2,
-          name: 'Project2',
-          description: 'Longer Description.',
-          status: false,
-          duration: '12',
-          industry: null,
-          customer: null// , assignedUsers: [2, 3]
-        }],
-        supervisor: null,
-        supervising: []
-      },
-    ];
   }
 
   getAllProjects() {
@@ -242,26 +140,6 @@ export class ProjectsComponent implements OnInit {
 
 
     this.displayDialog = false;
-  }
-
-  searchIndustry(iname: string): Industry {
-    for (let i = 0; i < this.industries.length; i++) {
-      if (this.industries[i].name === iname) {
-        return this.industries[i];
-      }
-    }
-
-    return null;
-  }
-
-  searchCustomer(cname: string): Customer {
-    for (let i = 0; i < this.customers.length; i++) {
-      if (this.customers[i].name === cname) {
-        return this.customers[i];
-      }
-    }
-
-    return null;
   }
 
   createIndusrtyLabels() {
