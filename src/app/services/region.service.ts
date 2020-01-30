@@ -12,14 +12,18 @@ export class RegionService {
   }
 
   public getAllRegions(): Observable<Region[]> {
-    return this.backendService.get('');
+    return this.backendService.get('http://localhost:8080/region/getall');
   }
 
   public insertRegion(region: Region) {
-    this.backendService.post('', region);
+    return this.backendService.post('http://localhost:8080/region/add', region);
   }
 
   public editRegion(region: Region) {
-    this.backendService.put('', region);
+    return this.backendService.post('http://localhost:8080/region/update', region);
+  }
+
+  deleteProject(region: Region) {
+    return this.backendService.post('http://localhost:8080/region/deactivate/', region);
   }
 }
