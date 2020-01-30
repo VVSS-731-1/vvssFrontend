@@ -8,16 +8,21 @@ import {CookieService} from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class ProfileService {
+  private username: string;
 
   constructor(private backendService: BackendService, private cookieService: CookieService) {
   }
 
-  public getProfile(): Observable<Profile> {
+  public getProfile(): Observable<Profile[]> {
     return this.backendService.get('http://localhost:8080/profile/getall');
 
   }
 
   public findProfile(): Observable<Profile> {
-    return this.backendService.get('', this.cookieService.get('username'));
+    console.log(this.cookieService.get('username'));
+    this.username = this.cookieService.get('username');
+    console.log(this.username.toString());
+    return this.backendService.get('http://localhost:8080/profile/get_profile/',
+     "fideluser");
   }
 }

@@ -1,10 +1,13 @@
-<form #viewProfile="ngForm">
-  <div class="form-group">
-    <label [(ngModel)]="profile.user.firstName">First name: </label>
-    <label [(ngModel)]="profile.user.lastName">Last name: </label>
-    <label [(ngModel)]="profile.region">Region: </label>
-    <label [(ngModel)]="profile.consultingLevel">Consulting Level: </label>
-    <label [(ngModel)]="profile.skillProfiles">Skills: </label>
-    <label>Projects: </label>
-  </div>
-</form>
+<div>
+  <label>First name: {{profile.user.firstName}}</label>
+  <br>
+  <label>Last name: {{profile.user.lastName}}</label>
+  <br>
+  <label>Region: {{profile.region.name}}</label>
+  <br>
+  <label>Consulting Level: {{profile.consultingLevel.name}}</label>
+  <br>
+  <label>Skills: {{skills.toString()}}</label>
+  <br>
+  <label>Projects: {{projects.toString()}}</label>
+</div>
