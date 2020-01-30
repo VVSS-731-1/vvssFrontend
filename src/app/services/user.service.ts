@@ -21,7 +21,7 @@ export class UserService {
   }
 
   public getUserAfterUsername(name: string): Observable<User> {
-    return this.backendService.get('http://localhost:8080/user/getbyname/' + this.cookieService.get('username'));
+    return this.backendService.get('http://localhost:8080/user/getbyname/' + name);
   }
 
   public editUser(user: User) {

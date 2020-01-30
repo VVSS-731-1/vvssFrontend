@@ -64,22 +64,22 @@ export class LoginComponent implements OnInit {
              response.counter = response.counter + 1;
              this.userService.editUser(response).subscribe(
                respone2 => {
-                 this.toastrService.success('Number of failed attempts to login increased!');
+                 this.toastrService.error('Could not increase value of failed login attempts.');
                },
                (error1) => {
-                 this.toastrService.error('Could not increase value of failed login attempts.');
+                 this.toastrService.success('Number of failed attempts to login increased!');
                }
              );
 
-           } else {
+           } else if (response.counter === 3) {
              response.status = false;
              this.userService.editUser(response).subscribe(
                respone2 => {
-                 this.toastrService.success('Too many failed attempts. User deactivated.');
-               },
-               (error2 => {
                  this.toastrService.error('Could not deactivate user.');
-               })
+               },
+               (error2) => {
+                 this.toastrService.success('Too many failed attempts. User deactivated.');
+               }
              );
            }
          }
