@@ -2,7 +2,8 @@
 
 <div class="content-section implementation">
   <p-table [columns]="cols" [value]="regionsArray" selectionMode="single" [(selection)]="selectedRegion"
-           (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10">
+           (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="10"
+           [style]="{'width':'800px', 'margin-left': '350px'}">
     <ng-template pTemplate="caption">
       List of all Regions
     </ng-template>
