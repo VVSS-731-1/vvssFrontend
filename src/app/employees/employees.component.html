@@ -141,10 +141,10 @@
           <input pInputText
                  required
                  id="email"
-                 name="name"
+                 name="email"
                  class="form-control"
                  #email="ngModel"
-                 [(ngModel)]="selectedEmployee.firstName"
+                 [(ngModel)]="selectedEmployee.email"
           >
           <div style="width:400px" *ngIf="email.touched && email.invalid">
             <div *ngIf="email.errors.required" style="color:red">
