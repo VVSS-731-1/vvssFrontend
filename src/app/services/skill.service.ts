@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {Skill} from '../models/skill.model';
 import {SkillArea} from '../models/skill-area.model';
 import {Injectable} from '@angular/core';
+import {SkillInsertModel, SkillWrapperModel} from "../models/skill-wrapper.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,11 @@ export class SkillService {
     return this.backendService.get('http://localhost:8080/skill/getall');
   }
 
-  public insertSkill(skill: Skill) {
+  public insertSkill(skill: SkillInsertModel) {
     return this.backendService.post('http://localhost:8080/skill/add', skill);
   }
 
-  public editSkill(skill: Skill) {
+  public editSkill(skill: SkillInsertModel) {
     return this.backendService.post('http://localhost:8080/skill/update', skill);
   }
 

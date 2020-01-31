@@ -9,7 +9,7 @@
          id="username"
          name="username"
          style="width: 600px">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="searchEmployees()">Search</button>
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
 
 
@@ -41,8 +41,54 @@
     </ng-template>
   </p-table>
 
-  <p-dialog header="Project Details" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
+  <p-dialog header="Add skill" [(visible)]="insertDialog" [responsive]="true" [modal]="true"
             [style]="{width: '700px', background: 'lightgrey'}" [focusOnShow]="false" showEffect="fade">
+
+
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label styleClass="projectPopUpLabels" for="skill">Name</label>
+      </div>
+
+      <div class="ui-g-8">
+        <p-dropdown
+          id="skill"
+          name="skill"
+          [options]="skillForDropdown"
+          [(ngModel)]="skillInsert.skill">
+        </p-dropdown>
+      </div>
+    </div>
+
+
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label styleClass="projectPopUpLabels" for="skillLevelI">SkillLevel</label>
+      </div>
+
+      <div class="ui-g-8">
+        <p-dropdown
+          id="skillLevelI"
+          name="skillLevelI"
+          [options]="skillLevelForDropdown"
+          [(ngModel)]="skillInsert.skill_level"></p-dropdown>
+      </div>
+    </div>
+
+
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save">
+        </button>
+      </div>
+    </p-footer>
+
+  </p-dialog>
+
+  <p-dialog header="Skill Details" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
+            [style]="{width: '700px', background: 'lightgrey'}" [focusOnShow]="false" showEffect="fade">
+
+
     <div class="ui-g ui-fluid" *ngIf="selectedSkill">
       <div class="ui-g-12">
         <div class="ui-g-4">
@@ -95,29 +141,18 @@
 
       <div class="ui-g-12">
         <div class="ui-g-4">
-          <label for="status">Status</label>
-        </div>
-
-        <div class="ui-g-8">
-          <input
-            type="checkbox"
-            [(ngModel)]="selectedSkill.status"
-            name="status"
-            id="status">
-        </div>
-      </div>
-
-      <div class="ui-g-12">
-        <div class="ui-g-4">
           <label styleClass="projectPopUpLabels" for="skillArea">SkillArea</label>
         </div>
 
         <div class="ui-g-8">
-          <p-dropdown
+          <input
+            pInputText
+            required
             id="skillArea"
             name="skillArea"
-            [options]="skillAreaForDropdown"
-            [(ngModel)]="selectedSkill.skillArea"></p-dropdown>
+            class="form-control"
+            #skillArea="ngModel"
+            [(ngModel)]="selectedSkill.skillArea">
         </div>
       </div>
 
@@ -127,23 +162,19 @@
         </div>
 
         <div class="ui-g-8">
-          <p-dropdown
+          <input
+            pInputText
+            required
             id="skillLevel"
             name="skillLevel"
-            [options]="skillLevelForDropdown"
-            [(ngModel)]="selectedSkill.skillLevel"></p-dropdown>
+            class="form-control"
+            #skillLevel="ngModel"
+            [(ngModel)]="selectedSkill.skillLevel"/>
         </div>
       </div>
 
 
     </div>
-
-    <p-footer>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix">
-        <button type="button" pButton icon="fa fa-check" (click)="save()" label="Save">
-        </button>
-      </div>
-    </p-footer>
 
   </p-dialog>
 </div>
