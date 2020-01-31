@@ -88,6 +88,7 @@ export class EmployeesComponent implements OnInit {
   getAllEmployees() {
     this.userService.getAllUsers().subscribe(
       (response) => {
+        console.log(response.length);
         this.employeeArray = response;
       }
     );
@@ -167,16 +168,16 @@ export class EmployeesComponent implements OnInit {
     } else {
       this.userService.editUser(this.selectedEmployee).subscribe(
         () => {
-          this.toastrService.success('Skill updated successfully.');
+          this.toastrService.success('User updated successfully.');
           this.getAllEmployees();
         },
         (error: HttpErrorResponse) => {
           console.error(error);
           if (error.status === 200) {
-            this.toastrService.success('Skill updated successfully.');
+            this.toastrService.success('User updated successfully.');
             this.getAllEmployees();
           } else {
-            this.toastrService.error('Could not update skill!');
+            this.toastrService.error('Could not update user!');
           }
         });
     }
