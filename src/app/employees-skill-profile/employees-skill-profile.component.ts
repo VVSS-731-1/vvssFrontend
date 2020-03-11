@@ -8,9 +8,9 @@ import {SkillArea} from '../models/skill-area.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {SkillInsertModel, SkillWrapperModel} from '../models/skill-wrapper.model';
 import {SelectItem} from 'primeng';
-import {ProfileService} from "../services/profile.service";
-import {Profile} from "../models/profile.model";
-import {SkillProfileModel} from "../models/skill-profile.model";
+import {ProfileService} from '../services/profile.service';
+import {Profile} from '../models/profile.model';
+import {SkillProfileModel} from '../models/skill-profile.model';
 
 @Component({
   selector: 'app-employees',
@@ -40,6 +40,11 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
   skillLevelForDropdown: SelectItem[];
   skillInsert: SkillInsertModel;
 
+  profiles: Profile[];
+  index: number;
+  username: string;
+  skillProfiles: SkillProfileModel[];
+
   ngOnInit(): void {
     this.skillInsert = {skill: '', profile_id: 0, skill_level: 0};
     this.getEmployeeSkillProfile();
@@ -48,7 +53,6 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    //this.getAllSkillProfiles();
     this.cols = [
       {field: 'id', header: 'ID', width: '150px'},
       {field: 'name', header: 'Skill Name', width: '150px'},
@@ -82,15 +86,6 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
 
   }
 
-  // searchEmployees() {
-  //   this.getAllSkillProfiles();
-  // }
-
-  profiles: Profile[];
-  index: number;
-  username: string;
-  skillProfiles: SkillProfileModel[];
-
   getEmployeeSkillProfile() {
     this.profileService.getProfile().subscribe(p => {
       console.log('Profile loaded');
@@ -108,7 +103,7 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
       }
       this.skillProfiles = this.profiles[this.index].skillProfiles;
       this.skillProfilesArray = [];
-      for(let j = 0; j < this.skillProfiles.length; j++) {
+      for (let j = 0; j < this.skillProfiles.length; j++) {
         this.skillProfilesArray.push({
           id: this.skillProfiles[j].skill_id.id,
           name: this.skillProfiles[j].skill_id.name,
@@ -140,15 +135,8 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
   }
 
   save() {
-    // this.selectedSimpleSkill.id = this.selectedSkill.id;
-    // this.selectedSimpleSkill.name = this.selectedSkill.name;
-    // this.selectedSimpleSkill.status = this.selectedSkill.status;
-    // // need to change
-    // this.selectedSimpleSkill.skillArea = null;
-    // this.skillInsert.skill = this.selectedSkill.name;
     this.skillInsert.profile_id = this.index + 1;
     console.log(this.skillInsert);
-    // this.skillInsert.skill_level = this.selectedSkill.skillLevel;
     if (this.newSkill) {
       this.skillService.insertSkill(this.skillInsert).subscribe(
         () => {
@@ -159,7 +147,7 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
           console.error(error);
           if (error.status === 200) {
             this.getEmployeeSkillProfile();
-            console.log("Insert success");
+            this.toastrService.success('Skill inserted successfully.');
           } else {
             this.toastrService.error('Could not insert project!');
           }
@@ -174,6 +162,7 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
           console.error(error);
           if (error.status === 200) {
             this.getEmployeeSkillProfile();
+            this.toastrService.success('Skill updated successfully.');
           } else {
             this.toastrService.error('Could not update skill!');
           }
@@ -195,7 +184,5 @@ export class EmployeesSkillProfileComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < this.skillsArray.length; i++) {
       this.skillForDropdown.push({label: this.skillsArray[i].name, value: this.skillsArray[i].name});
     }
-
-    console.log(this.skillForDropdown);
   }
 }
