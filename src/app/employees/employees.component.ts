@@ -7,7 +7,6 @@ import {User} from '../models/user.model';
 import {Project} from '../models/project.model';
 import {SelectItem} from 'primeng';
 import {UserService} from '../services/user.service';
-import {ProjectService} from '../services/project.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
@@ -19,7 +18,7 @@ export class EmployeesComponent implements OnInit {
 
   constructor(private backendService: BackendService, private toastrService: ToastrService,
               private employeeService: EmployeeService, private cookieService: CookieService,
-              private userService: UserService, private projectService: ProjectService) {
+              private userService: UserService) {
   }
 
   employeeArray: User[];
@@ -28,12 +27,9 @@ export class EmployeesComponent implements OnInit {
   newEmployee: boolean;
   employee: User;
   displayDialog: boolean;
-  supervisors: User[];
   projects: Project[];
   supervisorsNamesForDropdown: SelectItem[];
   projectsNameForDropdown: SelectItem[];
-
-  supervisorTest: User;
 
   ngOnInit() {
     this.getAllEmployees();
@@ -45,42 +41,8 @@ export class EmployeesComponent implements OnInit {
       {field: 'email', header: 'E-mail', width: '150px'},
       {field: 'admin', header: 'Admin', width: '150px'},
       {field: 'counter', header: 'Nb Failed Attempts', width: '150px'},
-      //{field: 'supervisor', header: 'Supervisor', width: '150px'}
     ];
 
-    /**
-     this.supervisors = [
-     {
-        id: 3,
-        firstName: 'Supervisor1',
-        lastName: 'Super',
-        username: 'super',
-        email: 'super@gmail.com',
-        admin: true,
-        counter: 0,
-        projects: [],
-        status: true,
-        supervisor: null,
-        supervising: []
-      }
-     ];
-     this.supervisorTest = {
-      id: 3,
-      firstName: 'Supervisor1',
-      lastName: 'Super',
-      username: 'super',
-      email: 'super@gmail.com',
-      admin: true,
-      counter: 0,
-      projects: [],
-      status: true,
-      supervisor: null,
-      supervising: []
-    };
-     this.projects = [
-     {id: 1, name: 'Project1', description: '....', status: true, duration: '10', industry: null, customer: null},
-     {id: 2, name: 'Project2', description: 'Longer Description.', status: false, duration: '12', industry: null, customer: null}
-     ];**/
     this.createSupervisorsLabels();
     this.createProjectsLabels();
   }
@@ -88,7 +50,6 @@ export class EmployeesComponent implements OnInit {
   getAllEmployees() {
     this.userService.getAllUsers().subscribe(
       (response) => {
-        console.log(response.length);
         this.employeeArray = response;
       }
     );
@@ -158,9 +119,9 @@ export class EmployeesComponent implements OnInit {
           this.getAllEmployees();
         },
         (error: HttpErrorResponse) => {
-          console.error(error);
           if (error.status === 200) {
             this.getAllEmployees();
+            this.toastrService.success('User inserted successfully.');
           } else {
             this.toastrService.error('Could not insert user!');
           }

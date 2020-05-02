@@ -14,7 +14,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class RegionComponent implements OnInit {
 
   constructor(private backendService: BackendService, private toastrService: ToastrService,
-              private regionService: RegionService, private cookieService: CookieService) {
+              private regionService: RegionService) {
   }
 
   regionsArray: Region[];
@@ -118,7 +118,7 @@ export class RegionComponent implements OnInit {
 
   getAllRegions() {
     this.regionService.getAllRegions().subscribe( (regionList) => {
-      this.regionsArray = regionList.filter(x => x.status ===true);
+      this.regionsArray = regionList.filter(x => x.status === true);
     }
   );
   }

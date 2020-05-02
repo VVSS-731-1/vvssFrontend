@@ -3,6 +3,7 @@ import {Profile} from '../models/profile.model';
 import {ProfileService} from '../services/profile.service';
 import {CookieService} from 'ngx-cookie-service';
 import {SkillProfileModel} from '../models/skill-profile.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,8 @@ import {SkillProfileModel} from '../models/skill-profile.model';
 export class ProfileComponent implements OnInit {
   private username: string;
 
-  constructor(private profileService: ProfileService, private cookieService: CookieService) {
+  constructor(private profileService: ProfileService, private cookieService: CookieService,
+              private toastrService: ToastrService) {
 
   }
 
@@ -25,11 +27,8 @@ export class ProfileComponent implements OnInit {
   skillProfiles: SkillProfileModel[];
 
   ngOnInit() {
-    console.log('profile');
     this.profileService.getProfile().subscribe(p => {
-      console.log('Profile loaded');
       this.profiles = p;
-      console.log(this.profiles);
       this.skills = '';
       this.projects = '';
       this.index = 0;
@@ -37,7 +36,7 @@ export class ProfileComponent implements OnInit {
       this.username = this.cookieService.get('username');
 
       for (let i = 0; i < this.profiles.length; i++) {
-        if (this.profiles[i].user.username == this.username) {
+        if (this.profiles[i].user.username === this.username) {
           this.profile = this.profiles[i];
           this.index = i + 1;
           break;
@@ -55,10 +54,8 @@ export class ProfileComponent implements OnInit {
         this.projects += this.profile.user.projects[pIndex].name + '\n';
       }
 
-      console.log(this.profile);
-
     }, Error => {
-      alert(Error);
+      this.toastrService.error('Error in getting employee profile.');
     });
   }
 }

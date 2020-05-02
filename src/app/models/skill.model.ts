@@ -6,3 +6,4 @@ export interface Skill {
     status: boolean;
   skillArea: SkillArea;
 }
+

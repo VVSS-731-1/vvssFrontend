@@ -16,7 +16,6 @@ import {User} from '../models/user.model';
 export class LoginComponent implements OnInit {
 
   loginCreds: Login;
-  userIsAdmin: boolean;
   user: User;
 
   constructor(private router: Router, private loginService: LoginService,
@@ -45,17 +44,15 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/home']);
         this.authService.loggedInSetter();
 
-       if (this.loginCreds.username.indexOf('@') >= 0) {
+        if (this.loginCreds.username.indexOf('@') >= 0) {
          console.log('Email');
          this.loginCreds.username = response.username;
        }
 
         this.cookieService.set('username', this.loginCreds.username);
-       this.cookieService.set('isAdmin', String(response.admin));
+        this.cookieService.set('isAdmin', String(response.admin));
       },
      (error) => {
-        console.log(error);
-       console.log(this.loginCreds.username);
        this.toastrService.error('Error by login.');
        this.userService.getUserAfterUsername(this.loginCreds.username).subscribe(
          response => {
