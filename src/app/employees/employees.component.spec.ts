@@ -17,8 +17,7 @@ import {MasterdataComponent} from '../master-data/masterdata.component';
 import {RegisterComponent} from '../register/register.component';
 import {RegionComponent} from '../region/region.component';
 import {HomeComponent} from '../home/home.component';
-import {User} from "../models/user.model";
-import {Project} from "../models/project.model";
+import {User} from '../models/user.model';
 
 describe('EmployeesComponent', () => {
   let component: EmployeesComponent;
@@ -69,5 +68,18 @@ describe('EmployeesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create a save button', () => {
+    const compiled = fixture.debugElement;
+    const divs = compiled.nativeElement.querySelectorAll('div');
+    expect(divs.length).toBe(2);
+    expect(divs[0].querySelectorAll('button').length).toBe(1);
+    expect(divs[1].querySelectorAll('button').length).toBe(1);
+  });
+
+  it('should render the correct title', () => {
+    const title = fixture.nativeElement.querySelectorAll('h1')[0];
+    expect(title.innerText).toBe('Manage Employees');
   });
 });
